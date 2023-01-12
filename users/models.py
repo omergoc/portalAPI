@@ -35,7 +35,7 @@ class Account(AbstractUser):
         verbose_name="Cinsiyet",
         choices=[('MALE','Erkek'),('FEMALE', 'Kadın')]
     )
-    profile_activate =models.IntegerField(default=0,null=True, verbose_name="Portal Durum")
+    profile_activate = models.IntegerField(default=0,null=True, verbose_name="Portal Durum")
     description = models.TextField(verbose_name="Hakkında",null=True, blank=True)
     cv = models.FileField(upload_to='static/upload/cv/%Y/%m/%portal', null=True, blank=True, verbose_name="CV Yükle")
     image = models.ImageField(upload_to = "static/upload/author/%Y/%m/%portal", default="/static/upload/author/default.jpg",  null=True, verbose_name="Resim")
