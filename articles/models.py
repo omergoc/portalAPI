@@ -13,15 +13,19 @@ class Categories(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name.replace('ı', 'i'))
+        super(Categories, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = "Kategoriler"
+
 
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="Başlık", unique=True)
     description = models.CharField(max_length=250, verbose_name="Açıklama", null=True)
     content = models.TextField(verbose_name="İçerik")
-    video_link = models.CharField(max_length=250, verbose_name="Youtube Video Adresi", null=True)
     writer = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
@@ -45,8 +49,8 @@ class Article(models.Model):
     )
     image = models.ImageField(upload_to="static/upload/%Y/%m/%portal", default="static/upload/default.jpg",
                               verbose_name="Resim(Önerilen:788x443)")
-    slug = models.SlugField(max_length=200, unique=True, null=True, verbose_name="Seo Adres", editable=False)
-    views = models.IntegerField(verbose_name="Görüntülenme Sayısı", default=0, editable=False)
+    slug = models.SlugField(max_length=200, unique=True, null=True, verbose_name="Seo Adres")
+    views = models.IntegerField(verbose_name="Görüntülenme Sayısı", default=0, unique=True)
 
     available = models.BooleanField(default=False, verbose_name="Yayına Al")
 

@@ -3,6 +3,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AbstractUser
 
 
+
 class Rank(models.Model):
     title = models.CharField(max_length=200,null=True, default='Ekip Başlık',verbose_name="Ekip Başlık")
     description = models.CharField(max_length=500,null=True, default='Ekip Açıklama',verbose_name="Ekip Açıklama")

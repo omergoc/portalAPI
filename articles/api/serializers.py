@@ -1,37 +1,42 @@
 from rest_framework import serializers
-from articles.models import Article
+from articles.models import Article, Categories
+from users.models import Account
 
 
-class ArticleSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField()
-    description = serializers.CharField()
-    content = serializers.CharField()
-    video_link = serializers.CharField()
-    writer = serializers.IntegerField()
-    last_edit = serializers.IntegerField()
-    created_date = serializers.DateTimeField(read_only=True)
-    category = serializers.IntegerField()
-    image = serializers.ImageField()
-    slug = serializers.CharField()
-    views = serializers.IntegerField()
-    available = serializers.BooleanField()
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['id','first_name','last_name']
+        
 
-    def create(self, validated_data):
-        print(validated_data)
-        return Article.objects.create(**validated_data)
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = '__all__'
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        instance.content = validated_data.get('content', instance.content)
-        instance.video_link = validated_data.get('video_link', instance.video_link)
-        instance.writer = validated_data.get('writer', instance.writer)
-        instance.last_edit = validated_data.get('last_edit', instance.last_edit)
-        instance.created_date = validated_data.get('created_date', instance.created_date)
-        instance.category = validated_data.get('category', instance.category)
-        instance.image = validated_data.get('image', instance.image)
-        instance.slug = validated_data.get('slug', instance.slug)
-        instance.views = validated_data.get('views', instance.views)
-        instance.available = validated_data.get('available', instance.available)
-        return instance
+
+class ArticleListSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    writer = UserInfoSerializer()
+    last_edit = UserInfoSerializer()
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+class ArticleCreateSerializer(serializers.ModelSerializer):
+
+    def validate(self, data):
+        return data
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+class ArticleUpdateSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(allow_empty_file=True, allow_null=False, required=False)
+    class Meta:
+        model = Article
+        fields = ['title','description','content','last_edit','category','image','views','available']
