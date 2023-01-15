@@ -17,6 +17,7 @@ from django.http import HttpResponse
 from drfasyncview import AsyncRequest, AsyncAPIView
 """
 
+
 # Category API 
 class CategoriesListView(APIView):
 
@@ -72,9 +73,9 @@ class CategoryDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-
 class CategoryUpdateAPIView(APIView):
     permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         category_instance = get_object_or_404(Categories, pk=pk)
         return category_instance
@@ -85,7 +86,7 @@ class CategoryUpdateAPIView(APIView):
         data_control = Categories.objects.filter(slug=slug)
 
         if data_control:
-                return Response(
+            return Response(
             {
                 'errors': {
                     'code':404,
