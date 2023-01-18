@@ -77,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'portal.wsgi.application'
-
+ASGI_APPLICATION = 'portal.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -140,3 +140,11 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST ="smtp.gmail.com"
+EMAIL_HOST_USER ="info@siberatay.com"
+EMAIL_HOST_PASSWORD = "ivpadmqxmfkvazts"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "info@siberatay.com"

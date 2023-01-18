@@ -26,6 +26,14 @@ class UserSerializer(ModelSerializer):
                   'description', 'image', 'rank', 'rank_sub']
     
 
+class AccountCreateSerializer(ModelSerializer):
+
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'email', 'password']
+        
+
+
 class AccountUpdateSerializer(ModelSerializer):
     image = serializers.ImageField(allow_empty_file=True, allow_null=False, required=False)
 
@@ -33,6 +41,7 @@ class AccountUpdateSerializer(ModelSerializer):
         model = Account
         fields = ['first_name', 'last_name', 'birthday', 'gender', 'profile_activate', 'is_staff', 'email', 'is_active',
                   'description', 'image', 'rank', 'rank_sub']
+
 
 class ChangePasswordSerializer(Serializer):
     old_password = serializers.CharField(required=True)

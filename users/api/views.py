@@ -3,7 +3,7 @@ from users.models import Account
 from rest_framework.generics import  get_object_or_404, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from users.api.serializers import UserSerializer,AccountUpdateSerializer
+from users.api.serializers import UserSerializer,AccountUpdateSerializer,AccountCreateSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -18,6 +18,15 @@ class AccountView(RetrieveAPIView):
         obj = get_object_or_404(queryset, id = self.request.user.id)
         return obj
 
+class AccountCreateView(APIView):
+    serializer_class = AccountCreateSerializer
+
+    def post(self, request):
+        serializer = AccountCreateSerializer(self.request.user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AccountUpdateView(APIView):
     permission_classes = (IsAuthenticated,)

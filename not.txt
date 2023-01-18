@@ -1,0 +1,1 @@
+uvicorn portal.asgi:application --reload --port 8000

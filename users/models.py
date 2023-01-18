@@ -60,6 +60,7 @@ class Account(AbstractUser):
         verbose_name="Rütbe",
         null=True
     )
+    otp = models.IntegerField(verbose_name="OTP", null=True)
     class Meta:
         verbose_name_plural = "Kulanıcı Listesi"
 
